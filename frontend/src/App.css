@@ -1,38 +1,240 @@
-.App {
+/*
+  ?  *********************************************************** for App.js *************************************************************
+*/
+.parent-top-row {
+  width: 100%;
+  height: 4.5rem;
+  overflow: visible;
+}
+.float-right {
+  float: right;
+}
+.support-borders {
+  border: 1px solid #007efc;
+}
+.main-heading-todo-list {
+  font-size: 2.65rem;
+  font-weight: bold;
+  /* padding: 0px 18.21% 16.8% 11.72%; */
+  padding: 0% 4.6% 1.75% 2.96%;
+  border-radius: 0px 0px 25px 0px;
+  height: inherit;
+  width: max-content;
+  background-color: #cae0fe;
+}
+.heading-column,
+.smi-column {
+  height: inherit;
+}
+.developer-div {
+  border-radius: 25px 0px 0px 0px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 0.25% 1.32% 0.25% 1.32%;
+  width: max-content;
+  background-color: #fac0c0;
+}
+.social-media-icons {
+  width: fit-content;
+  margin-top: 2%;
+  height: 4.5rem;
+  overflow: visible;
+}
+.logo-1 {
+  opacity: 1;
+}
+.social-media-icons-column {
+  width: 48px;
+}
+/*
+  ?  *********************************************************** for todolist.js *************************************************************
+*/
+
+.parent-container {
   text-align: center;
+  /* border: 1px solid black; */
+}
+.main-heading {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 2.75rem;
+  font-weight: 700;
+  /* border: 1px solid black; */
+  width: 38.125%;
+  margin-top: 2.625%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.list {
+  gap: 1rem;
+  margin-top: 3%;
+  border: 1px solid #909090;
+  border-radius: 20px;
+  width: 32.625%;
+  list-style-type: none;
+  text-align: left;
+  /*pc : font-size: 1.2rem; */
+  font-size: 1.5rem;
+  /*mobile : font-size: 1.2rem; */
+}
+.list-item {
+  color: #707070;
+  /* padding : Top Right Bottom Left */
+  padding: 15px 10px 0px 2px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.list-item::after {
+  content: "";
+  display: block;
+  height: 0.1em;
+  margin-left: 35px;
+  margin-top: 4.5px;
+  background-color: #707070;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.delete-item-btn {
+  cursor: pointer;
+  float: right;
+  font-size: 15px;
+  margin-top: 1.8%;
+}
+
+.list-btn {
+  margin-top: 23.5px;
+  margin-bottom: 3.5%;
+  height: 65%;
+  width: 91.8%;
+  border: 1px solid #ff1b1b;
+  background-color: #ff1b1b;
+  border-radius: 0px 34px 34px 0px;
   color: white;
+  transition: 0.5s;
+  font-size: 1.5rem;
+}
+.list-btn:hover {
+  background-color: white;
+  color: #ff1b1b;
 }
 
-.App-link {
-  color: #61dafb;
+.list-input {
+  text-indent: 4%;
+  font-size: 1.5rem;
+  margin-top: 23.5px;
+  height: 65%;
+  border: 1px solid #707070;
+  border-radius: 34px 0px 0px 34px;
+  /* border-radius : top-left top-right bottom-right bottom-left*/
+  outline: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-check:focus + .btn,
+.btn:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.item-checkbox {
+  margin-right: 2.45%;
+  width: 1.1em;
+  height: 1.1em;
+  background-color: white;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.item-checkbox:checked {
+  background-color: rgb(95, 184, 95);
+}
+/* .item-checkbox::after {
+  content: "✔️";
+} */
+
+/*
+  ?  *********************************************************** for login.js *************************************************************
+*/
+
+.login-page-container {
+  gap: 1rem;
+  margin-top: 6.625%;
+  border: 1px solid #909090;
+  border-radius: 20px;
+  width: 32.625%;
+  list-style-type: none;
+  text-align: left;
+  /*pc : font-size: 1.2rem; */
+  font-size: 1.5rem;
+  /*mobile : font-size: 1.2rem; */
+}
+
+.login-tab-btn {
+  margin-bottom: 3.5%;
+  height: 100%;
+
+  /* border: 1px solid #ff1b1b;
+  border-radius: 0px 34px 34px 0px; */
+  color: Black;
+  font-size: 1.5rem;
+}
+.signup-tab-btn {
+  margin-bottom: 3.5%;
+  height: 100%;
+  background-color: rgba(255, 233, 220, 0.85);
+  /* border-color: #707070; */
+  border-bottom: 1px solid #707070;
+  border-left: 1px solid #707070;
+  border-radius: 0px 20px 0px 20px;
+  color: Black;
+  font-size: 1.5rem;
+}
+
+.login-inputs {
+  margin-top: 25.81%;
+}
+.login-input {
+  outline: 0;
+  /*border-width : top right bottom left*/
+  border-width: 0 0 2px;
+  border-color: #707070;
+}
+.login-input:focus {
+  border-color: green;
+}
+.password-row {
+  margin-top: 15.635%;
+}
+.login-req-btns {
+  margin-top: 20.2%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3.51%;
+  width: 78.48%;
+}
+.normal-login-btn {
+  color: white;
+  background-color: #007efc;
+  border-radius: 17px;
+  font-size: 1.5rem;
+}
+.normal-login-btn:hover {
+  color: #007efc;
+  background-color: white;
+}
+.login-with-google-btn {
+  border-color: #707070;
+  border-radius: 17px;
+  font-size: 1.5rem;
+  margin-top: 4.34%;
+}
+.login-with-google-img {
+  background-image: url("./assets/goku.jpg");
+}
+.google-logo {
+  float: right;
+  margin-right: 5.2%;
+}
+.rotateAnti360 {
+  transition: 0.5s;
+  transform: rotate(360deg);
 }
