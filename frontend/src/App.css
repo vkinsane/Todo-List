@@ -33,6 +33,9 @@
   padding: 0.25% 1.32% 0.25% 1.32%;
   width: max-content;
   background-color: #fac0c0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }
 .social-media-icons {
   width: fit-content;
@@ -157,7 +160,7 @@
 
 .login-page-container {
   gap: 1rem;
-  margin-top: 6.625%;
+  margin-top: 5%;
   border: 1px solid #909090;
   border-radius: 20px;
   width: 32.625%;
@@ -168,7 +171,7 @@
   /*mobile : font-size: 1.2rem; */
 }
 
-.login-tab-btn {
+.active-tab-btn {
   margin-bottom: 3.5%;
   height: 100%;
 
@@ -177,7 +180,7 @@
   color: Black;
   font-size: 1.5rem;
 }
-.signup-tab-btn {
+.inactive-signup-tab-btn {
   margin-bottom: 3.5%;
   height: 100%;
   background-color: rgba(255, 233, 220, 0.85);
@@ -189,8 +192,23 @@
   font-size: 1.5rem;
 }
 
+.inactive-login-tab-btn {
+  margin-bottom: 3.5%;
+  height: 100%;
+  background-color: rgba(255, 233, 220, 0.85);
+  /* border-color: #707070; */
+  border-bottom: 1px solid #707070;
+  border-right: 1px solid #707070;
+  border-radius: 20px 0px 20px 0px;
+  color: Black;
+  font-size: 1.5rem;
+}
+
 .login-inputs {
   margin-top: 25.81%;
+}
+.signup-inputs {
+  margin-top: 20.81%;
 }
 .login-input {
   outline: 0;

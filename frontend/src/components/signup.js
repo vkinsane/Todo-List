@@ -1,34 +1,51 @@
 import "../App.css";
 import React from "react";
 import googleLogo from "../assets/googleLogo.png";
-
-function Login() {
+function SignUp() {
   return (
     <div className="container parent-container">
       <div className="container login-page-container shadow">
         <div className="row mb-2 btn-row">
           <div className="col px-0 mx-0">
             <a href="/login">
-              <button className="btn active-tab-btn w-100">Login</button>
+              <button className="btn inactive-login-tab-btn w-100">
+                Login
+              </button>
             </a>
           </div>
           <div className="col px-0 mx-0">
             <a href="/signup">
-              <button className="btn inactive-signup-tab-btn w-100">
-                Signup
-              </button>
+              <button className="btn active-tab-btn w-100">Signup</button>
             </a>
           </div>
         </div>
 
-        <div className="login-inputs">
-          <div className="row email-row">
+        <div className="signup-inputs">
+          <div className="row username-row">
+            <div className="col-4">Username</div>
+            <div className="col-8">
+              <input type="text" className="login-input w-100" />
+            </div>
+          </div>
+
+          <div
+            className="row email-row"
+            style={{
+              marginTop: "10.635%",
+            }}
+          >
             <div className="col-4">Email</div>
             <div className="col-8">
               <input type="text" className="login-input w-100" />
             </div>
           </div>
-          <div className="row password-row">
+
+          <div
+            className="row"
+            style={{
+              marginTop: "10.635%",
+            }}
+          >
             <div className="col-4">Password</div>
             <div className="col-8">
               <input type="text" className="login-input w-100" />
@@ -38,8 +55,9 @@ function Login() {
 
         <div className="col login-req-btns">
           <div className="row px-0 mx-0">
+            {/* #007EFC */}
             <button className="btn w-100 normal-login-btn border border-primary px-0 py-1">
-              Login
+              Signup
             </button>
           </div>
           <div className="row px-0 mx-0">
@@ -54,7 +72,7 @@ function Login() {
                 logo.classList.remove("rotateAnti360");
               }}
             >
-              Login with Google
+              Signup with Google
               <img
                 alt="Google-Logo"
                 className="google-logo"
@@ -69,4 +87,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

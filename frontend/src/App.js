@@ -1,9 +1,12 @@
 import "./App.css";
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 
 //* Import Files
 import ToDoList from "./components/todolist";
 import Login from "./components/login";
+import SignUp from "./components/signup";
+import Mainrouter from "./components/mainrouter";
 
 //* Import Assets
 import githubLogo from "./assets/githubLogo.png";
@@ -14,12 +17,12 @@ function App() {
   return (
     <React.Fragment>
       <div className="">
-        <div className="row parent-top-row support-borders">
+        <div className="row parent-top-row">
           <div className="col-9 heading-column">
             <div className="main-heading-todo-list shadow">Todo-List</div>
           </div>
           <div className="col-3 smi-column mx-0 px-0">
-            <div className="social-media-icons float-right support-borders">
+            <div className="social-media-icons float-right">
               <div className="col social-media-icons-column">
                 <div className="row">
                   <img src={githubLogo} alt="" />
@@ -34,12 +37,11 @@ function App() {
             </div>
           </div>
         </div>
-        <Login />
+        <Router>
+          <Mainrouter />
+        </Router>
 
-        <ToDoList />
-        <div className="developer-div float-right">
-          Developed By : Vishal Khandate
-        </div>
+        <div className="developer-div">Developed By : Vishal Khandate</div>
       </div>
     </React.Fragment>
   );
