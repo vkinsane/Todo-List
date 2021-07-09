@@ -5,9 +5,10 @@ const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
 const config = require("config");
 const app = express();
-
+const cors = require("cors");
 // Bodyparser Middleware
 app.use(express.json());
+app.use(cors());
 
 //DB Config
 const db = config.get("mongoURI");

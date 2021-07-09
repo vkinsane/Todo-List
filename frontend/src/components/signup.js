@@ -1,7 +1,41 @@
 import "../App.css";
-import React from "react";
+import React, { useState } from "react";
 import googleLogo from "../assets/googleLogo.png";
+import { Redirect } from "react-router-dom";
+
+// *Axios
+import axios from "axios";
+
 function SignUp() {
+  const [state, setState] = useState({
+    signUpInfo: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const onSubmission = () => {
+    setState({
+      signUpInfo: {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+      },
+    });
+
+    axios
+      .post(`http://localhost:5000/api/users`, state.signUpInfo)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("token", res.data.token);
+        setSignUpSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="container parent-container">
       <div className="container login-page-container shadow">
@@ -24,7 +58,7 @@ function SignUp() {
           <div className="row username-row">
             <div className="col-4">Username</div>
             <div className="col-8">
-              <input type="text" className="login-input w-100" />
+              <input id="name" type="text" className="login-input w-100" />
             </div>
           </div>
 
@@ -36,7 +70,7 @@ function SignUp() {
           >
             <div className="col-4">Email</div>
             <div className="col-8">
-              <input type="text" className="login-input w-100" />
+              <input id="email" type="text" className="login-input w-100" />
             </div>
           </div>
 
@@ -48,15 +82,21 @@ function SignUp() {
           >
             <div className="col-4">Password</div>
             <div className="col-8">
-              <input type="text" className="login-input w-100" />
+              <input
+                id="password"
+                type="password"
+                className="login-input w-100"
+              />
             </div>
           </div>
         </div>
 
         <div className="col login-req-btns">
           <div className="row px-0 mx-0">
-            {/* #007EFC */}
-            <button className="btn w-100 normal-login-btn border border-primary px-0 py-1">
+            <button
+              className="btn w-100 normal-login-btn border border-primary px-0 py-1"
+              onClick={onSubmission}
+            >
               Signup
             </button>
           </div>
@@ -83,6 +123,8 @@ function SignUp() {
           </div>
         </div>
       </div>
+
+      {signUpSuccess && <Redirect to="/todolist" />}
     </div>
   );
 }
