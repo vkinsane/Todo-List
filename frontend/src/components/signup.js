@@ -7,25 +7,23 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 
 function SignUp() {
-  const [state, setState] = useState({
-    signUpInfo: {
-      name: "",
-      email: "",
-      password: "",
-    },
-  });
-  const [signUpSuccess, setSignUpSuccess] = useState(false);
-  const onSubmission = () => {
-    setState({
-      signUpInfo: {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-      },
-    });
+  var signUpInfo = {
+    name: "",
+    email: "",
+    password: "",
+  };
 
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
+
+  const onValueChange = ({ target }) => {
+    signUpInfo[target.id] = target.value;
+    // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
+    console.log(signUpInfo);
+  };
+
+  const onSubmission = () => {
     axios
-      .post(`http://localhost:5000/api/users`, state.signUpInfo)
+      .post(`http://localhost:5000/api/users`, signUpInfo)
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.token);
@@ -58,7 +56,12 @@ function SignUp() {
           <div className="row username-row">
             <div className="col-4">Username</div>
             <div className="col-8">
-              <input id="name" type="text" className="login-input w-100" />
+              <input
+                id="name"
+                type="text"
+                className="login-input w-100"
+                onChange={onValueChange}
+              />
             </div>
           </div>
 
@@ -70,7 +73,12 @@ function SignUp() {
           >
             <div className="col-4">Email</div>
             <div className="col-8">
-              <input id="email" type="text" className="login-input w-100" />
+              <input
+                id="email"
+                type="text"
+                className="login-input w-100"
+                onChange={onValueChange}
+              />
             </div>
           </div>
 
@@ -86,6 +94,7 @@ function SignUp() {
                 id="password"
                 type="password"
                 className="login-input w-100"
+                onChange={onValueChange}
               />
             </div>
           </div>

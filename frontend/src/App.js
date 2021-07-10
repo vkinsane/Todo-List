@@ -12,6 +12,8 @@ import Mainrouter from "./components/mainrouter";
 import githubLogo from "./assets/githubLogo.png";
 import instagramLogo from "./assets/instagramLogo.png";
 import linkedInLogo from "./assets/linkedInLogo.png";
+import logoutImg from "./assets/logout.png";
+import AuthExample from "./components/example";
 
 function App() {
   return (
@@ -27,16 +29,20 @@ function App() {
                 <div className="row">
                   <img src={githubLogo} alt="" />
                 </div>
-                <div className="row">
-                  <img className="my-3" src={instagramLogo} alt=""></img>
+                <div className="row mt-3">
+                  <img src={instagramLogo} alt=""></img>
+                </div>
+                <div className="row my-3">
+                  <img src={linkedInLogo} alt=""></img>
                 </div>
                 <div className="row">
-                  <img src={linkedInLogo} alt=""></img>
+                  <img src={logoutImg} alt=""></img>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {/* <AuthExample /> */}
         <Router>
           <Mainrouter />
         </Router>

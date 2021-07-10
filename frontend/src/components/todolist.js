@@ -114,6 +114,11 @@ function ToDoList() {
           </div>
         </div>
       </div>
+      <div className="container logout-btn">
+        <button className="btn active-tab-btn w-100 support-borders">
+          Logout
+        </button>
+      </div>
     </div>
   );
 }

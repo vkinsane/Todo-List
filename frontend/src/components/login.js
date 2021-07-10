@@ -1,8 +1,37 @@
 import "../App.css";
-import React from "react";
+import React, { useState } from "react";
 import googleLogo from "../assets/googleLogo.png";
+import { Redirect } from "react-router-dom";
+
+// *Axios
+import axios from "axios";
 
 function Login() {
+  var loginInfo = {
+    email: "",
+    password: "",
+  };
+  const [loginSuccess, setLoginSuccess] = useState(false);
+
+  const onValueChange = ({ target }) => {
+    loginInfo[target.id] = target.value;
+    // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
+    // console.log(loginInfo);
+  };
+
+  const onSubmission = async () => {
+    await axios
+      .post(`http://localhost:5000/api/auth`, loginInfo)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("token", res.data.token);
+        setLoginSuccess(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="container parent-container">
       <div className="container login-page-container shadow">
@@ -25,20 +54,33 @@ function Login() {
           <div className="row email-row">
             <div className="col-4">Email</div>
             <div className="col-8">
-              <input type="text" className="login-input w-100" />
+              <input
+                id="email"
+                type="text"
+                className="login-input w-100"
+                onChange={onValueChange}
+              />
             </div>
           </div>
           <div className="row password-row">
             <div className="col-4">Password</div>
             <div className="col-8">
-              <input type="text" className="login-input w-100" />
+              <input
+                id="password"
+                type="password"
+                className="login-input w-100"
+                onChange={onValueChange}
+              />
             </div>
           </div>
         </div>
 
         <div className="col login-req-btns">
           <div className="row px-0 mx-0">
-            <button className="btn w-100 normal-login-btn border border-primary px-0 py-1">
+            <button
+              className="btn w-100 normal-login-btn border border-primary px-0 py-1"
+              onClick={onSubmission}
+            >
               Login
             </button>
           </div>
@@ -65,6 +107,7 @@ function Login() {
           </div>
         </div>
       </div>
+      {loginSuccess && <Redirect to="/todolist" />}
     </div>
   );
 }
