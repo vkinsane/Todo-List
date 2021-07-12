@@ -6,8 +6,8 @@ import SignUp from "./signup";
 import ToDoList from "./todolist";
 import axios from "axios";
 
-function Mainrouter(props) {
-  console.log(props);
+function Mainrouter({ props }) {
+  // console.log(props);
   const [tokenValid, setTokenValid] = useState(false);
 
   const tokenValidator = async () => {
@@ -31,7 +31,11 @@ function Mainrouter(props) {
       <Switch>
         {/* <PrivateRoute exact path="/todolist" component={ToDoList} /> */}
         <Route exact path="/todolist">
-          {tokenValid ? <ToDoList /> : <Redirect to="/login" />}
+          {tokenValid ? (
+            <ToDoList props={{ username: props.username }} />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
         <Route exact path="/signup">
           {tokenValid ? <Redirect to="/todolist" /> : <SignUp />}

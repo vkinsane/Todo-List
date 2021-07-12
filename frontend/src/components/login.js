@@ -12,6 +12,11 @@ function Login() {
     password: "",
   };
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [alertConfig, setAlertConfig] = useState({
+    msg: "",
+    type: "",
+    show: false,
+  });
 
   const onValueChange = ({ target }) => {
     loginInfo[target.id] = target.value;
@@ -20,20 +25,65 @@ function Login() {
   };
 
   const onSubmission = async () => {
+    if (loginInfo.email === "" || loginInfo.password === "") {
+      setAlertConfig({
+        msg:
+          "Please fill " +
+          (loginInfo.email ? "" : "Email") +
+          (loginInfo.email === "" && loginInfo.password === "" ? " , " : "") +
+          (loginInfo.password ? "" : "Password"),
+        type: "info",
+        show: true,
+      });
+      document.getElementById("email").value = "";
+      document.getElementById("password").value = "";
+      return 0;
+    }
+
     await axios
       .post(`http://localhost:5000/api/auth`, loginInfo)
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("username", res.data.user.name);
+        setAlertConfig({
+          msg: "Login Success",
+          type: "success",
+          show: true,
+        });
         setLoginSuccess(true);
       })
       .catch((err) => {
+        setAlertConfig({
+          msg: err.message,
+          type: "danger",
+          show: true,
+        });
         console.log(err);
       });
   };
 
   return (
     <div className="container parent-container">
+      {/* Overlay */}
+      {loginSuccess && (
+        <div class="overlay">
+          <div class="overlay__inner">
+            <div class="overlay__content">
+              <span class="spinner"></span>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Alert Area */}
+      {alertConfig.show && (
+        <div
+          className={`container alert alert-${alertConfig.type} custom-alerts`}
+          role="alert"
+        >
+          {alertConfig.msg}
+        </div>
+      )}
       <div className="container login-page-container shadow">
         <div className="row mb-2 btn-row">
           <div className="col px-0 mx-0">
@@ -107,7 +157,10 @@ function Login() {
           </div>
         </div>
       </div>
-      {loginSuccess && (window.open("/todolist", "_self"), window.close())}
+      {loginSuccess &&
+        setTimeout(() => {
+          window.open("/todolist", "_self");
+        }, 500)}
 
       {/* {loginSuccess && <Redirect to="/todolist" />} */}
     </div>

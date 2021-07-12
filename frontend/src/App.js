@@ -69,7 +69,7 @@ function App() {
                       src={logoutImg}
                       alt="logout-button"
                       onClick={() => {
-                        localStorage.removeItem("token");
+                        localStorage.clear();
                         window.open("/login", "_self");
                         window.close();
                       }}
@@ -80,9 +80,14 @@ function App() {
             </div>
           </div>
         </div>
-        {/* <AuthExample /> */}
+
         <Router>
-          <Mainrouter props={{ isAuthenticated: authenticatedUser }} />
+          <Mainrouter
+            props={{
+              isAuthenticated: authenticatedUser,
+              username: localStorage.getItem("username"),
+            }}
+          />
         </Router>
 
         <div className="developer-div">Developed By : Vishal Khandate</div>

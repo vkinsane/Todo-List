@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useState } from "react";
-function ToDoList({ username }) {
+function ToDoList({ props }) {
   const [state, setState] = useState({
     items: [
       { itemName: "Eggs", done: false },
@@ -8,12 +8,58 @@ function ToDoList({ username }) {
     ],
   });
   const [inputVisible, setInputVisible] = useState(false);
-
+  document.onload = () => {
+    console.log("loaded");
+  };
+  const fadeAlert = () => {
+    setTimeout(() => {
+      document.querySelector(".custom-alerts").style.opacity = "0";
+      setTimeout(() => {
+        document.querySelector(".custom-alerts").style.display = "none";
+      }, 1000);
+      localStorage.removeItem("username");
+    }, 3000);
+  };
   var key = 0;
-
+  window.onbeforeunload = (e) => {
+    // e.preventDefault();
+    // let url = this.href;
+    // alert(`You're leaving this page, would be redirected to : ${url}`);
+    // window.location.href = url;
+    // return "ss";
+    //TODO: before leaving add localstorage value previous page and when going to that route check first the
+    //TODO: localstorage previuous page value and then simply redirect dont check for token or something
+  };
   return (
     <div className="container parent-container">
-      <div>{username}</div>
+      {localStorage.getItem("username") && fadeAlert()}
+      {localStorage.getItem("username") && (
+        <div
+          className="container alert alert-success custom-alerts"
+          role="alert"
+        >
+          Welcome {props.username}!
+          <span
+            className="float-right close-alert-btn"
+            onClick={() => {
+              document.querySelector(".custom-alerts").style.display = "none";
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              className="bi bi-check2-circle"
+              viewBox="0 0 16 16"
+            >
+              <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+              <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+            </svg>
+          </span>
+        </div>
+      )}
+
       <div className="container main-heading">Todo-List</div>
       <div className="container list shadow">
         {state.items.map((eachItem) => {

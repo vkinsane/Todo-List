@@ -14,6 +14,11 @@ function SignUp() {
   };
 
   const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const [alertConfig, setAlertConfig] = useState({
+    msg: "",
+    type: "",
+    show: false,
+  });
 
   const onValueChange = ({ target }) => {
     signUpInfo[target.id] = target.value;
@@ -22,20 +27,62 @@ function SignUp() {
   };
 
   const onSubmission = () => {
+    if (signUpInfo.email === "" || signUpInfo.password === "") {
+      setAlertConfig({
+        msg: "Please fill all fields",
+        type: "info",
+        show: true,
+      });
+      document.getElementById("email").value = "";
+      document.getElementById("password").value = "";
+      document.getElementById("name").value = "";
+      return 0;
+    }
+
     axios
       .post(`http://localhost:5000/api/users`, signUpInfo)
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("username", res.data.user.name);
+        setAlertConfig({
+          msg: "Signup Success",
+          type: "success",
+          show: true,
+        });
         setSignUpSuccess(true);
       })
       .catch((err) => {
+        setAlertConfig({
+          msg: err.message,
+          type: "danger",
+          show: true,
+        });
         console.log(err);
       });
   };
 
   return (
     <div className="container parent-container">
+      {/* Overlay */}
+      {signUpSuccess && (
+        <div class="overlay">
+          <div class="overlay__inner">
+            <div class="overlay__content">
+              <span class="spinner"></span>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Alert Area */}
+      {alertConfig.show && (
+        <div
+          className={`container alert alert-${alertConfig.type} custom-alerts`}
+          role="alert"
+        >
+          {alertConfig.msg}
+        </div>
+      )}
       <div className="container login-page-container shadow">
         <div className="row mb-2 btn-row">
           <div className="col px-0 mx-0">
@@ -134,7 +181,10 @@ function SignUp() {
       </div>
 
       {/* {signUpSuccess && <Redirect to="/todolist" />} */}
-      {signUpSuccess && (window.open("/todolist", "_self"), window.close())}
+      {signUpSuccess &&
+        setTimeout(() => {
+          window.open("/todolist", "_self");
+        }, 500)}
     </div>
   );
 }
