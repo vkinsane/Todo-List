@@ -1,25 +1,31 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { isTokenValid } from "../helper/auth";
+import React, { useState } from "react";
+import { Route } from "react-router-dom";
+// import { isTokenValid } from "../helper/auth";
+// import ToDoList from "./todolist";
+import axios from "axios";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isTokenValid() ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: props.location },
-            }}
-          />
-        )
-      }
-    />
-  );
+const PrivateRoute = (props) => {
+  const [tokenValid, setTokenValid] = useState(false);
+  const [username, setUserName] = useState("");
+
+  const tokenValidator = async () => {
+    await axios({
+      method: "GET",
+      headers: { "x-auth-token": localStorage.getItem("token") },
+      url: "http://localhost:5000/api/auth/user",
+    })
+      .then((res) => {
+        setTokenValid(true);
+        setUserName(res.data.name);
+        // console.log(res);
+      })
+      .catch((err) => {
+        setTokenValid(false);
+        // console.log(err);
+      });
+  };
+  tokenValidator();
+  return <Route>{tokenValid && <props.component username={username} />}</Route>;
 };
 
 export default PrivateRoute;

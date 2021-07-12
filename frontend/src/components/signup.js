@@ -133,7 +133,8 @@ function SignUp() {
         </div>
       </div>
 
-      {signUpSuccess && <Redirect to="/todolist" />}
+      {/* {signUpSuccess && <Redirect to="/todolist" />} */}
+      {signUpSuccess && (window.open("/todolist", "_self"), window.close())}
     </div>
   );
 }

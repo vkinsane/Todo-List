@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useState } from "react";
-function ToDoList() {
+function ToDoList({ username }) {
   const [state, setState] = useState({
     items: [
       { itemName: "Eggs", done: false },
@@ -13,6 +13,7 @@ function ToDoList() {
 
   return (
     <div className="container parent-container">
+      <div>{username}</div>
       <div className="container main-heading">Todo-List</div>
       <div className="container list shadow">
         {state.items.map((eachItem) => {
@@ -114,11 +115,11 @@ function ToDoList() {
           </div>
         </div>
       </div>
-      <div className="container logout-btn">
+      {/* <div className="container logout-btn">
         <button className="btn active-tab-btn w-100 support-borders">
           Logout
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

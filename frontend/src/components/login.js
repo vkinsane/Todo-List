@@ -107,7 +107,9 @@ function Login() {
           </div>
         </div>
       </div>
-      {loginSuccess && <Redirect to="/todolist" />}
+      {loginSuccess && (window.open("/todolist", "_self"), window.close())}
+
+      {/* {loginSuccess && <Redirect to="/todolist" />} */}
     </div>
   );
 }
