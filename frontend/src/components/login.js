@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { useState } from "react";
 import googleLogo from "../assets/googleLogo.png";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 
 // *Axios
 import axios from "axios";

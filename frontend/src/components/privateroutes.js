@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Route } from "react-router-dom";
 // import { isTokenValid } from "../helper/auth";
-// import ToDoList from "./todolist";
+import ToDoList from "./todolist";
 import axios from "axios";
 
 const PrivateRoute = (props) => {
@@ -25,7 +25,7 @@ const PrivateRoute = (props) => {
       });
   };
   tokenValidator();
-  return <Route>{tokenValid && <props.component username={username} />}</Route>;
+  return <Route>{tokenValid && <ToDoList username={username} />}</Route>;
 };
 
 export default PrivateRoute;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Login from "./login";
 import SignUp from "./signup";
-import PrivateRoute from "./privateroutes";
+// import PrivateRoute from "./privateroutes";
 import ToDoList from "./todolist";
 import axios from "axios";
 
@@ -29,12 +29,15 @@ function Mainrouter(props) {
   return (
     <React.Fragment>
       <Switch>
-        <PrivateRoute exact path="/todolist" component={ToDoList} />
+        {/* <PrivateRoute exact path="/todolist" component={ToDoList} /> */}
+        <Route exact path="/todolist">
+          {tokenValid ? <ToDoList /> : <Redirect to="/login" />}
+        </Route>
         <Route exact path="/signup">
-          {!tokenValid && <SignUp />}
+          {tokenValid ? <Redirect to="/todolist" /> : <SignUp />}
         </Route>
         <Route exact path={["/", "/login"]}>
-          <Login />
+          {tokenValid ? <Redirect to="/todolist" /> : <Login />}
         </Route>
       </Switch>
     </React.Fragment>
