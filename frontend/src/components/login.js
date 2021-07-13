@@ -35,11 +35,11 @@ function Login() {
         type: "info",
         show: true,
       });
-      document.getElementById("email").value = "";
-      document.getElementById("password").value = "";
+
       return 0;
     }
-
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
     await axios
       .post(`http://localhost:5000/api/auth`, loginInfo)
       .then((res) => {

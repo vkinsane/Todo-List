@@ -20,6 +20,12 @@ function SignUp() {
     show: false,
   });
 
+  const emptyInputs = () => {
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("name").value = "";
+  };
+
   const onValueChange = ({ target }) => {
     signUpInfo[target.id] = target.value;
     // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
@@ -27,15 +33,17 @@ function SignUp() {
   };
 
   const onSubmission = () => {
-    if (signUpInfo.email === "" || signUpInfo.password === "") {
+    if (
+      signUpInfo.name === "" ||
+      signUpInfo.email === "" ||
+      signUpInfo.password === ""
+    ) {
       setAlertConfig({
         msg: "Please fill all fields",
         type: "info",
         show: true,
       });
-      document.getElementById("email").value = "";
-      document.getElementById("password").value = "";
-      document.getElementById("name").value = "";
+      emptyInputs();
       return 0;
     }
 
@@ -58,6 +66,7 @@ function SignUp() {
           type: "danger",
           show: true,
         });
+        emptyInputs();
         console.log(err);
       });
   };

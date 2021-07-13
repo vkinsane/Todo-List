@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const ItemSchema = new Schema({
-  items: {
+  list: {
     type: Array,
     default: [
       {
-        items: "Walk",
+        itemName: "Eggs",
         done: false,
       },
     ],

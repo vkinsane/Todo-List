@@ -20,6 +20,10 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  list_id: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = User = mongoose.model("user", UserSchema);

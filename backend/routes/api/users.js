@@ -36,10 +36,12 @@ router.post("/", (req, res) => {
         msg: "User Already Exists",
       });
     }
+
     const newUser = new User({
       name: name,
       email: email,
       password: password,
+      list_id: "",
     });
 
     //Create salt & hash
