@@ -71,7 +71,6 @@ function App() {
                       onClick={() => {
                         localStorage.clear();
                         window.open("/login", "_self");
-                        window.close();
                       }}
                     ></img>
                   </div>

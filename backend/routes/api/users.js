@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
-
 //User Model
 const User = require("../../models/User");
 
@@ -36,12 +35,11 @@ router.post("/", (req, res) => {
         msg: "User Already Exists",
       });
     }
-
     const newUser = new User({
       name: name,
       email: email,
       password: password,
-      list_id: "",
+      list_id: "default",
     });
 
     //Create salt & hash
@@ -68,6 +66,7 @@ router.post("/", (req, res) => {
                   id: user.id,
                   name: user.name,
                   email: user.email,
+                  list_id: user.list_id,
                 },
               });
             }
@@ -76,6 +75,21 @@ router.post("/", (req, res) => {
       });
     });
   });
+});
+
+//@route PUT api/items
+//@desc  Update the User [ List Id ]
+//@access Private
+router.put("/updateUser", (req, res) => {
+  User.updateOne(
+    { _id: req.body._id },
+    {
+      list_id: req.body.list_id,
+      // $set: {
+      //   list_id: "cool",
+      // },
+    }
+  ).then((item) => res.json(item));
 });
 
 //@route DELETE api/users/:id

@@ -1,5 +1,10 @@
 import "../App.css";
 import React, { useState } from "react";
+// *Axios
+import axios from "axios";
+
+var mongoose = require("mongoose");
+
 function ToDoList({ props }) {
   const [state, setState] = useState({
     items: [
@@ -21,18 +26,35 @@ function ToDoList({ props }) {
     }, 3000);
   };
   var key = 0;
-  window.onbeforeunload = (e) => {
-    // e.preventDefault();
-    // let url = this.href;
-    // alert(`You're leaving this page, would be redirected to : ${url}`);
-    // window.location.href = url;
-    // return "ss";
-    //TODO: before leaving add localstorage value previous page and when going to that route check first the
-    //TODO: localstorage previuous page value and then simply redirect dont check for token or something
+  // window.onbeforeunload = (e) => {
+  //   // e.preventDefault();
+  //   // let url = this.href;
+  //   // alert(`You're leaving this page, would be redirected to : ${url}`);
+  //   // window.location.href = url;
+  //   // return "ss";
+  //   //TODO: before leaving add localstorage value previous page and when going to that route check first the
+  //   //TODO: localstorage previuous page value and then simply redirect dont check for token or something
+  // };
+  const updateUserListId = async () => {
+    console.log(localStorage.getItem("userId"));
+    console.log(localStorage.getItem("listId"));
+
+    await axios
+      .put(`http://localhost:5000/api/users/updateUser`, {
+        _id: mongoose.Types.ObjectId(localStorage.getItem("userId")),
+        list_id: mongoose.Types.ObjectId(localStorage.getItem("listId")),
+      })
+      .then((res) => {
+        console.log(res);
+        console.log("updated the user");
+      })
+      .catch(console.log("Unable to update user"));
   };
+  const fetchListData = () => {};
+  updateUserListId();
   return (
     <div className="container parent-container">
-      {localStorage.getItem("username") && fadeAlert()}
+      {/* {localStorage.getItem("username") && fadeAlert()} */}
       {localStorage.getItem("username") && (
         <div
           className="container alert alert-success custom-alerts"

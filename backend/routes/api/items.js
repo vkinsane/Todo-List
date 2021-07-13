@@ -37,7 +37,7 @@ router.post("/", auth, (req, res) => {
 //@route POST api/items
 //@desc  Create a Default List
 //@access Private
-router.post("/defaultList", auth, (req, res) => {
+router.post("/defaultList", (req, res) => {
   const newItem = new Item({
     list: [
       {

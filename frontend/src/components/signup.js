@@ -14,6 +14,9 @@ function SignUp() {
   };
 
   const [signUpSuccess, setSignUpSuccess] = useState(false);
+  // const [userId, setUserId] = useState("s");
+  // const [listId, setListId] = useState("s");
+
   const [alertConfig, setAlertConfig] = useState({
     msg: "",
     type: "",
@@ -32,7 +35,17 @@ function SignUp() {
     console.log(signUpInfo);
   };
 
-  const onSubmission = () => {
+  const getListId = async () => {
+    await axios
+      .post(`http://localhost:5000/api/items/defaultList`)
+      .then((res) => {
+        localStorage.setItem("listId", res.data._id);
+        console.log("got list id");
+      })
+      .catch(console.log("Unable to get List Id"));
+  };
+
+  const onSubmission = async () => {
     if (
       signUpInfo.name === "" ||
       signUpInfo.email === "" ||
@@ -47,17 +60,20 @@ function SignUp() {
       return 0;
     }
 
-    axios
+    await axios
       .post(`http://localhost:5000/api/users`, signUpInfo)
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("username", res.data.user.name);
+        localStorage.setItem("userId", res.data.user.id);
         setAlertConfig({
           msg: "Signup Success",
           type: "success",
           show: true,
         });
+        // *Get a list_id
+        getListId();
         setSignUpSuccess(true);
       })
       .catch((err) => {
@@ -75,10 +91,10 @@ function SignUp() {
     <div className="container parent-container">
       {/* Overlay */}
       {signUpSuccess && (
-        <div class="overlay">
-          <div class="overlay__inner">
-            <div class="overlay__content">
-              <span class="spinner"></span>
+        <div className="overlay">
+          <div className="overlay__inner">
+            <div className="overlay__content">
+              <span className="spinner"></span>
             </div>
           </div>
         </div>
