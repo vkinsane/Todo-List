@@ -46,23 +46,29 @@ function App() {
           <div className="col-3 smi-column mx-0 px-0">
             <div className="social-media-icons float-right">
               <div className="col social-media-icons-column">
-                <div className="row">
-                  <img src={githubLogo} alt="" title="Visit my GitHub" />
-                </div>
-                <div className="row mt-3">
-                  <img
-                    src={instagramLogo}
-                    alt=""
-                    title="Visit my Instagram"
-                  ></img>
-                </div>
-                <div className="row my-3">
-                  <img
-                    src={linkedInLogo}
-                    alt=""
-                    title="Visit my Linked in profile"
-                  ></img>
-                </div>
+                <a href="https://github.com/vkinsane">
+                  <div className="row">
+                    <img src={githubLogo} alt="" title="Visit my GitHub" />
+                  </div>
+                </a>
+                <a href="https://www.instagram.com/vk_insane3/">
+                  <div className="row mt-3">
+                    <img
+                      src={instagramLogo}
+                      alt=""
+                      title="Visit my Instagram"
+                    ></img>
+                  </div>
+                </a>
+                <a href="https://www.linkedin.com/in/vishal-khandate-a059831a0/">
+                  <div className="row my-3">
+                    <img
+                      src={linkedInLogo}
+                      alt=""
+                      title="Visit my Linked in profile"
+                    ></img>
+                  </div>
+                </a>
                 {authenticatedUser && (
                   <div className="row">
                     <img

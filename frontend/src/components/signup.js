@@ -33,6 +33,48 @@ function SignUp() {
     signUpInfo[target.id] = target.value;
     // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
     console.log(signUpInfo);
+
+    if (
+      target.id === "name" &&
+      target.value.match("^[A-Za-z0-9_@./#&+-][^\\s]*$") != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Username ✔️",
+        type: "success",
+        show: true,
+      });
+    } else if (
+      target.id === "email" &&
+      target.value.match(
+        "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
+      ) != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Email ✔️",
+        type: "success",
+        show: true,
+      });
+    } else if (
+      target.id === "password" &&
+      target.value.match(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      ) != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Password ✔️",
+        type: "success",
+        show: true,
+      });
+    } else {
+      setAlertConfig({
+        msg:
+          (target.id === "name" && "Invalid username ❌") ||
+          (target.id === "email" && "Invalid email ❌") ||
+          (target.id === "password" && "Invalid password ❌"),
+        type: "info",
+        show: true,
+      });
+    }
   };
 
   const getListId = async () => {

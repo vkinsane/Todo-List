@@ -22,6 +22,39 @@ function Login() {
     loginInfo[target.id] = target.value;
     // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
     // console.log(loginInfo);
+
+    if (
+      target.id === "email" &&
+      target.value.match(
+        "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
+      ) != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Email",
+        type: "success",
+        show: true,
+      });
+    } else if (
+      target.id === "password" &&
+      target.value.match(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      ) != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Password",
+        type: "success",
+        show: true,
+      });
+    } else {
+      setAlertConfig({
+        msg:
+          target.id === "email"
+            ? "Invalid Email"
+            : "Please enter strong password with a mixture of number, characters, capital & small letters with minimum length of 8",
+        type: "info",
+        show: true,
+      });
+    }
   };
 
   const onSubmission = async () => {
