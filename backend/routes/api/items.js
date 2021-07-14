@@ -81,7 +81,7 @@ router.put("/", auth, (req, res) => {
 //@route PUT api/items/
 //@desc  Update the list (remove item)
 //@access Private
-router.put("/deleteItem", auth, (req, res) => {
+router.put("/deleteItem", (req, res) => {
   Item.updateOne(
     { _id: req.body._id },
     {

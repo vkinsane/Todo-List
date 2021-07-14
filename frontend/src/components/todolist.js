@@ -5,20 +5,16 @@ import axios from "axios";
 var mongoose = require("mongoose");
 
 function ToDoList({ props }) {
+  var key = 0;
   const [state, setState] = useState({
-    items: [
-      // { itemName: "Eggs", done: false },
-      // { itemName: "Milk", done: false },
-    ],
+    items: [],
   });
   const [inputVisible, setInputVisible] = useState(false);
   const [newItem, setNewItem] = useState({
     itemName: "",
     done: false,
   });
-  document.onload = () => {
-    console.log("loaded");
-  };
+
   // const fadeAlert = () => {
   //   setTimeout(() => {
   //     document.querySelector(".custom-alerts").style.opacity = "0";
@@ -28,7 +24,7 @@ function ToDoList({ props }) {
   //     localStorage.removeItem("username");
   //   }, 3000);
   // };
-  var key = 0;
+
   //   //TODO: before leaving add localstorage value previous page and when going to that route check first the
   //   //TODO: localstorage previuous page value and then simply redirect dont check for token or something
 
@@ -40,6 +36,7 @@ function ToDoList({ props }) {
     console.log(newItem);
   };
 
+  // * Fetching Data Without Reloading page
   React.useEffect(function effectFunction() {
     async function fetchListData() {
       await axios
@@ -73,6 +70,23 @@ function ToDoList({ props }) {
         setState({
           items: [...state.items, newItem],
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const deleteItemFromList = async () => {
+    var payload = {
+      _id: mongoose.Types.ObjectId("60eeaee958e408211c45de8c"),
+      itemToDelete: {
+        itemName: "Eggs",
+        done: false,
+      },
+    };
+    axios
+      .put(`http://localhost:5000/api/items/deleteItem`, payload)
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -140,6 +154,7 @@ function ToDoList({ props }) {
               <span
                 className="delete-item-btn"
                 onClick={() => {
+                  deleteItemFromList();
                   setState({
                     items: state.items.filter((iteratorItem) => {
                       return iteratorItem !== eachItem;
