@@ -21,40 +21,41 @@ function Login() {
   const onValueChange = ({ target }) => {
     loginInfo[target.id] = target.value;
     // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
-    // console.log(loginInfo);
+    console.log(loginInfo);
 
-    if (
-      target.id === "email" &&
-      target.value.match(
-        "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
-      ) != null
-    ) {
-      setAlertConfig({
-        msg: "Valid Email",
-        type: "success",
-        show: true,
-      });
-    } else if (
-      target.id === "password" &&
-      target.value.match(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-      ) != null
-    ) {
-      setAlertConfig({
-        msg: "Valid Password",
-        type: "success",
-        show: true,
-      });
-    } else {
-      setAlertConfig({
-        msg:
-          target.id === "email"
-            ? "Invalid Email"
-            : "Please enter strong password with a mixture of number, characters, capital & small letters with minimum length of 8",
-        type: "info",
-        show: true,
-      });
-    }
+    //TODO: Validation
+    // if (
+    //   target.id === "email" &&
+    //   target.value.match(
+    //     "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
+    //   ) != null
+    // ) {
+    //   setAlertConfig({
+    //     msg: "Valid Email",
+    //     type: "info",
+    //     show: true,
+    //   });
+    // } else if (
+    //   target.id === "password" &&
+    //   target.value.match(
+    //     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+    //   ) != null
+    // ) {
+    //   setAlertConfig({
+    //     msg: "Valid Password",
+    //     type: "info",
+    //     show: true,
+    //   });
+    // } else {
+    //   setAlertConfig({
+    //     msg:
+    //       target.id === "email"
+    //         ? "Invalid Email"
+    //         : "Please enter strong password with a mixture of number, characters, capital & small letters with minimum length of 8",
+    //     type: "info",
+    //     show: true,
+    //   });
+    // }
   };
 
   const onSubmission = async () => {
@@ -79,12 +80,13 @@ function Login() {
         console.log(res);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("username", res.data.user.name);
+        localStorage.setItem("listId", res.data.user.list_id);
         setAlertConfig({
           msg: "Login Success",
           type: "success",
           show: true,
         });
-        setLoginSuccess(true);
+        // setLoginSuccess(true);
       })
       .catch((err) => {
         setAlertConfig({
@@ -100,10 +102,10 @@ function Login() {
     <div className="container parent-container">
       {/* Overlay */}
       {loginSuccess && (
-        <div class="overlay">
-          <div class="overlay__inner">
-            <div class="overlay__content">
-              <span class="spinner"></span>
+        <div className="overlay">
+          <div className="overlay__inner">
+            <div className="overlay__content">
+              <span className="spinner"></span>
             </div>
           </div>
         </div>

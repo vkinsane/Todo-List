@@ -5,7 +5,7 @@ import googleLogo from "../assets/googleLogo.png";
 
 // *Axios
 import axios from "axios";
-
+var mongoose = require("mongoose");
 function SignUp() {
   var signUpInfo = {
     name: "",
@@ -34,47 +34,50 @@ function SignUp() {
     // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
     console.log(signUpInfo);
 
-    if (
-      target.id === "name" &&
-      target.value.match("^[A-Za-z0-9_@./#&+-][^\\s]*$") != null
-    ) {
-      setAlertConfig({
-        msg: "Valid Username ✔️",
-        type: "success",
-        show: true,
-      });
-    } else if (
-      target.id === "email" &&
-      target.value.match(
-        "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
-      ) != null
-    ) {
-      setAlertConfig({
-        msg: "Valid Email ✔️",
-        type: "success",
-        show: true,
-      });
-    } else if (
-      target.id === "password" &&
-      target.value.match(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-      ) != null
-    ) {
-      setAlertConfig({
-        msg: "Valid Password ✔️",
-        type: "success",
-        show: true,
-      });
-    } else {
-      setAlertConfig({
-        msg:
-          (target.id === "name" && "Invalid username ❌") ||
-          (target.id === "email" && "Invalid email ❌") ||
-          (target.id === "password" && "Invalid password ❌"),
-        type: "info",
-        show: true,
-      });
-    }
+    //TODO:Validation
+    /*
+     if (
+        target.id === "name" &&
+        target.value.match("^[A-Za-z0-9_@./#&+-][^\\s]*$") != null
+      ) {
+        setAlertConfig({
+          msg: "Valid Username ✔️",
+          type: "success",
+          show: true,
+        });
+      } else if (
+        target.id === "email" &&
+        target.value.match(
+          "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
+        ) != null
+      ) {
+        setAlertConfig({
+          msg: "Valid Email ✔️",
+          type: "success",
+          show: true,
+        });
+      } else if (
+        target.id === "password" &&
+        target.value.match(
+          "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+        ) != null
+      ) {
+        setAlertConfig({
+          msg: "Valid Password ✔️",
+          type: "success",
+          show: true,
+        });
+      } else {
+        setAlertConfig({
+          msg:
+            (target.id === "name" && "Invalid username ❌") ||
+            (target.id === "email" && "Invalid email ❌") ||
+            (target.id === "password" && "Invalid password ❌"),
+          type: "info",
+          show: true,
+        });
+      }
+    */
   };
 
   const getListId = async () => {
@@ -82,7 +85,8 @@ function SignUp() {
       .post(`http://localhost:5000/api/items/defaultList`)
       .then((res) => {
         localStorage.setItem("listId", res.data._id);
-        console.log("got list id");
+        console.log("got list id", localStorage.getItem("listId"));
+        updateUserListId();
       })
       .catch(console.log("Unable to get List Id"));
   };
@@ -127,6 +131,26 @@ function SignUp() {
         emptyInputs();
         console.log(err);
       });
+  };
+
+  const updateUserListId = async () => {
+    // console.log(localStorage.getItem("userId"));
+    // console.log(localStorage.getItem("listId"));
+
+    await axios
+      .put(`http://localhost:5000/api/users/updateUser`, {
+        _id: mongoose.Types.ObjectId(localStorage.getItem("userId")),
+        list_id: mongoose.Types.ObjectId(localStorage.getItem("listId")),
+      })
+      .then((res) => {
+        console.log(localStorage.getItem("userId"));
+        console.log(localStorage.getItem("listId"));
+        console.log(res);
+        console.log("updated the user");
+      })
+      .catch(console.log("Unable to update user"));
+    console.log("This is List Id:", localStorage.getItem("listId"));
+    console.log("This is User Id:", localStorage.getItem("userId"));
   };
 
   return (

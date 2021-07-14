@@ -3,55 +3,42 @@ import React, { useState } from "react";
 // *Axios
 import axios from "axios";
 
-var mongoose = require("mongoose");
-
 function ToDoList({ props }) {
+  var userItemsArray = [];
+  const fetchListData = async () => {
+    await axios
+      .get(`http://localhost:5000/api/items/${localStorage.getItem("listId")}`)
+      .then((res) => {
+        // console.log(res.data.list);
+        userItemsArray = res.data.list;
+        console.log(userItemsArray);
+      });
+  };
+  fetchListData();
   const [state, setState] = useState({
-    items: [
-      { itemName: "Eggs", done: false },
-      { itemName: "Milk", done: false },
-    ],
+    items: userItemsArray,
   });
+  console.log(state.items);
   const [inputVisible, setInputVisible] = useState(false);
   document.onload = () => {
     console.log("loaded");
   };
-  const fadeAlert = () => {
-    setTimeout(() => {
-      document.querySelector(".custom-alerts").style.opacity = "0";
-      setTimeout(() => {
-        document.querySelector(".custom-alerts").style.display = "none";
-      }, 1000);
-      localStorage.removeItem("username");
-    }, 3000);
-  };
+  // const fadeAlert = () => {
+  //   setTimeout(() => {
+  //     document.querySelector(".custom-alerts").style.opacity = "0";
+  //     setTimeout(() => {
+  //       document.querySelector(".custom-alerts").style.display = "none";
+  //     }, 1000);
+  //     localStorage.removeItem("username");
+  //   }, 3000);
+  // };
   var key = 0;
-  // window.onbeforeunload = (e) => {
-  //   // e.preventDefault();
-  //   // let url = this.href;
-  //   // alert(`You're leaving this page, would be redirected to : ${url}`);
-  //   // window.location.href = url;
-  //   // return "ss";
   //   //TODO: before leaving add localstorage value previous page and when going to that route check first the
   //   //TODO: localstorage previuous page value and then simply redirect dont check for token or something
-  // };
-  const updateUserListId = async () => {
-    console.log(localStorage.getItem("userId"));
-    console.log(localStorage.getItem("listId"));
 
-    await axios
-      .put(`http://localhost:5000/api/users/updateUser`, {
-        _id: mongoose.Types.ObjectId(localStorage.getItem("userId")),
-        list_id: mongoose.Types.ObjectId(localStorage.getItem("listId")),
-      })
-      .then((res) => {
-        console.log(res);
-        console.log("updated the user");
-      })
-      .catch(console.log("Unable to update user"));
+  const addItemToList = async () => {
+    axios.put();
   };
-  const fetchListData = () => {};
-  updateUserListId();
   return (
     <div className="container parent-container">
       {/* {localStorage.getItem("username") && fadeAlert()} */}

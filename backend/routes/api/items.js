@@ -15,6 +15,13 @@ router.get("/", (req, res) => {
     .then((items) => res.json(items));
 });
 
+//@route GET api/items/:id
+//@desc GET a list by id
+//@access Private
+router.get("/:listId", (req, res) => {
+  Item.findById(req.params.listId).then((list) => res.json(list));
+});
+
 //@route POST api/items
 //@desc  Create A Item
 //@access Private
