@@ -2,24 +2,20 @@ import "../App.css";
 import React, { useState } from "react";
 // *Axios
 import axios from "axios";
+var mongoose = require("mongoose");
 
 function ToDoList({ props }) {
-  var userItemsArray = [];
-  const fetchListData = async () => {
-    await axios
-      .get(`http://localhost:5000/api/items/${localStorage.getItem("listId")}`)
-      .then((res) => {
-        // console.log(res.data.list);
-        userItemsArray = res.data.list;
-        console.log(userItemsArray);
-      });
-  };
-  fetchListData();
   const [state, setState] = useState({
-    items: userItemsArray,
+    items: [
+      // { itemName: "Eggs", done: false },
+      // { itemName: "Milk", done: false },
+    ],
   });
-  console.log(state.items);
   const [inputVisible, setInputVisible] = useState(false);
+  const [newItem, setNewItem] = useState({
+    itemName: "",
+    done: false,
+  });
   document.onload = () => {
     console.log("loaded");
   };
@@ -36,8 +32,51 @@ function ToDoList({ props }) {
   //   //TODO: before leaving add localstorage value previous page and when going to that route check first the
   //   //TODO: localstorage previuous page value and then simply redirect dont check for token or something
 
+  const handleChangeNewItem = ({ target }) => {
+    setNewItem({
+      itemName: target.value,
+      done: false,
+    });
+    console.log(newItem);
+  };
+
+  React.useEffect(function effectFunction() {
+    async function fetchListData() {
+      await axios
+        .get(
+          `http://localhost:5000/api/items/${localStorage.getItem("listId")}`
+        )
+        .then((res) => {
+          console.log(res.data.list);
+          setState({
+            items: res.data.list,
+          });
+        });
+    }
+    fetchListData();
+  }, []);
+
   const addItemToList = async () => {
-    axios.put();
+    var payload = {
+      _id: mongoose.Types.ObjectId(localStorage.getItem("listId")),
+      newItem: newItem,
+    };
+    console.log(payload);
+    await axios({
+      method: "PUT",
+      headers: { "x-auth-token": localStorage.getItem("token") },
+      url: `http://localhost:5000/api/items`,
+      data: payload,
+    })
+      .then((res) => {
+        console.log(res);
+        setState({
+          items: [...state.items, newItem],
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="container parent-container">
@@ -142,6 +181,7 @@ function ToDoList({ props }) {
               type="text"
               className="list-input mr-0 w-100 pr-0 shadow"
               placeholder="Ex. Shopping..."
+              onChange={handleChangeNewItem}
             />
           </div>
 
@@ -154,16 +194,7 @@ function ToDoList({ props }) {
             <button
               type="button"
               className="btn list-btn w-100 ml-0 pl-0 shadow"
-              onClick={() => {
-                var newItemElement = document.querySelector("#newItem");
-                setState({
-                  items: [
-                    ...state.items,
-                    { itemName: newItemElement.value, done: false },
-                  ],
-                });
-                newItemElement.value = "";
-              }}
+              onClick={addItemToList}
             >
               Add Item
             </button>
