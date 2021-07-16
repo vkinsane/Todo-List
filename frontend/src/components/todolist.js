@@ -75,13 +75,11 @@ function ToDoList({ props }) {
         console.log(err);
       });
   };
-  const deleteItemFromList = async () => {
+  const deleteItemFromList = async (itemToDelete) => {
+    console.log(itemToDelete);
     var payload = {
-      _id: mongoose.Types.ObjectId("60eeaee958e408211c45de8c"),
-      itemToDelete: {
-        itemName: "Eggs",
-        done: false,
-      },
+      _id: mongoose.Types.ObjectId(localStorage.getItem("listId")),
+      itemToDelete: itemToDelete,
     };
     axios
       .put(`http://localhost:5000/api/items/deleteItem`, payload)
@@ -154,7 +152,7 @@ function ToDoList({ props }) {
               <span
                 className="delete-item-btn"
                 onClick={() => {
-                  deleteItemFromList();
+                  deleteItemFromList(eachItem);
                   setState({
                     items: state.items.filter((iteratorItem) => {
                       return iteratorItem !== eachItem;
