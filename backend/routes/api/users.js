@@ -5,7 +5,10 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 //User Model
 const User = require("../../models/User");
-
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(
+  "796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com"
+);
 //@route GET api/users
 //@desc GET All Users
 //@access Public
@@ -31,7 +34,7 @@ router.post("/", (req, res) => {
     email: email,
   }).then((user) => {
     if (user) {
-      return res.status(400).json({
+      return res.status(409).json({
         msg: "User Already Exists",
       });
     }
@@ -75,6 +78,65 @@ router.post("/", (req, res) => {
       });
     });
   });
+});
+
+//> Google
+//@route POST api/users
+//@desc  Create A User
+//@access Public
+router.post("/googleauth", (req, res) => {
+  const { tokenId } = req.body;
+  client
+    .verifyIdToken({
+      idToken: tokenId,
+      audience:
+        "796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com",
+    })
+    .then((userData) => {
+      const { email_verified, email, name } = userData.payload;
+      console.log(userData.payload);
+      if (email_verified) {
+        User.findOne({
+          email: email,
+        }).then((user) => {
+          if (user) {
+            return res.status(409).send("User Already Exists");
+          }
+          const newUser = new User({
+            name: name,
+            email: email,
+            password: "defaultpassword",
+            list_id: "default",
+          });
+
+          //Add user to database
+          newUser.save().then((user) => {
+            jwt.sign(
+              { id: user.id },
+              config.get("jwtSecret"),
+              {
+                expiresIn: 3600,
+              },
+              (err, token) => {
+                if (err) {
+                  throw err;
+                }
+
+                res.json({
+                  token,
+                  user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    list_id: user.list_id,
+                  },
+                });
+              }
+            );
+          });
+        });
+      }
+    });
 });
 
 //@route PUT api/items

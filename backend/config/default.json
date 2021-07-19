@@ -1,4 +1,5 @@
 {
     "mongoURI":"mongodb+srv://vk_insane3:dsc_event@cluster0.d2jo8.mongodb.net/todo_list?retryWrites=true&w=majority",
-    "jwtSecret":"tl_myJwtSecret"
+    "jwtSecret":"tl_myJwtSecret",
+    "JWT_GOOGLE_SIGNINKEY":"xyz"
 }

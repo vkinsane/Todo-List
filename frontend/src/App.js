@@ -27,7 +27,7 @@ function App() {
     })
       .then((res) => {
         setAuthenticatedUser(true);
-        // console.log(res);
+        console.log(res);
       })
       .catch((err) => {
         setAuthenticatedUser(false);

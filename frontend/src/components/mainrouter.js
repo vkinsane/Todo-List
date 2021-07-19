@@ -18,7 +18,7 @@ function Mainrouter({ props }) {
     })
       .then((res) => {
         setTokenValid(true);
-        // console.log(res);
+        console.log(res);
       })
       .catch((err) => {
         setTokenValid(false);

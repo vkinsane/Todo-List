@@ -2,6 +2,7 @@ import "../App.css";
 import React, { useState } from "react";
 import googleLogo from "../assets/googleLogo.png";
 // import { Redirect } from "react-router-dom";
+import GoogleLogin from "react-google-login";
 
 // *Axios
 import axios from "axios";
@@ -124,7 +125,10 @@ function SignUp() {
       })
       .catch((err) => {
         setAlertConfig({
-          msg: err.message,
+          msg:
+            err.message === "Request failed with status code 409"
+              ? "User Already exists"
+              : err.message,
           type: "danger",
           show: true,
         });
@@ -153,6 +157,49 @@ function SignUp() {
     console.log("This is User Id:", localStorage.getItem("userId"));
   };
 
+  // > For Google Signup
+  const responseGoogleSuccess = async (response) => {
+    console.log(response);
+    await axios({
+      method: "POST",
+      url: "http://localhost:5000/api/users/googleauth",
+      data: {
+        tokenId: response.tokenId,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("username", res.data.user.name);
+        localStorage.setItem("userId", res.data.user.id);
+        setAlertConfig({
+          msg: "Signup Success",
+          type: "success",
+          show: true,
+        });
+        // *Get a list_id
+        getListId();
+        setSignUpSuccess(true);
+      })
+      .catch((err) => {
+        if (err.message === "Request failed with status code 409") {
+          setAlertConfig({
+            msg: "User Already Exists",
+            type: "danger",
+            show: true,
+          });
+        }
+        console.log(err);
+      });
+  };
+  const responseGoogleFailure = (response) => {
+    setAlertConfig({
+      msg: "Google Signup failed",
+      type: "danger",
+      show: true,
+    });
+    console.log(response);
+  };
   return (
     <div className="container parent-container">
       {/* Overlay */}
@@ -247,6 +294,13 @@ function SignUp() {
               Signup
             </button>
           </div>
+          <GoogleLogin
+            clientId="796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com"
+            buttonText="Signup With Google"
+            onSuccess={responseGoogleSuccess}
+            onFailure={responseGoogleFailure}
+            cookiePolicy={"single_host_origin"}
+          />
           <div className="row px-0 mx-0">
             <button
               className="btn w-100 login-with-google-btn px-0 py-1"
