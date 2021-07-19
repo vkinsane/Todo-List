@@ -294,33 +294,37 @@ function SignUp() {
               Signup
             </button>
           </div>
-          <GoogleLogin
-            clientId="796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com"
-            buttonText="Signup With Google"
-            onSuccess={responseGoogleSuccess}
-            onFailure={responseGoogleFailure}
-            cookiePolicy={"single_host_origin"}
-          />
           <div className="row px-0 mx-0">
-            <button
-              className="btn w-100 login-with-google-btn px-0 py-1"
-              onMouseOver={() => {
-                var logo = document.querySelector(".google-logo");
-                logo.classList.add("rotateAnti360");
-              }}
-              onMouseLeave={() => {
-                var logo = document.querySelector(".google-logo");
-                logo.classList.remove("rotateAnti360");
-              }}
-            >
-              Signup with Google
-              <img
-                alt="Google-Logo"
-                className="google-logo"
-                src={googleLogo}
-                height="35px"
-              ></img>
-            </button>
+            <GoogleLogin
+              clientId="796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <button
+                  className="btn w-100 login-with-google-btn px-0 py-1"
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  onMouseOver={() => {
+                    var logo = document.querySelector(".google-logo");
+                    logo.classList.add("rotateAnti360");
+                  }}
+                  onMouseLeave={() => {
+                    var logo = document.querySelector(".google-logo");
+                    logo.classList.remove("rotateAnti360");
+                  }}
+                >
+                  Signup with Google
+                  <img
+                    alt="Google-Logo"
+                    className="google-logo"
+                    src={googleLogo}
+                    height="35px"
+                  ></img>
+                </button>
+              )}
+              buttonText="Signup With Google"
+              onSuccess={responseGoogleSuccess}
+              onFailure={responseGoogleFailure}
+              cookiePolicy={"single_host_origin"}
+            />
           </div>
         </div>
       </div>
