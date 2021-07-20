@@ -209,7 +209,8 @@ function Login() {
           {/* Login with google btn */}
           <div className="row px-0 mx-0">
             <GoogleLogin
-              clientId="796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com"
+              // clientId="796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com"
+              clientId="796409146798-2e4lbh1jq3vfterhtucv2u3haainvcto.apps.googleusercontent.com"
               render={(renderProps) => (
                 <button
                   className="btn w-100 login-with-google-btn px-0 py-1"
