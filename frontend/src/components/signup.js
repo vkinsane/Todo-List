@@ -182,13 +182,15 @@ function SignUp() {
         setSignUpSuccess(true);
       })
       .catch((err) => {
-        if (err.message === "Request failed with status code 409") {
-          setAlertConfig({
-            msg: "User Already Exists",
-            type: "danger",
-            show: true,
-          });
-        }
+        setAlertConfig({
+          msg:
+            err.message === "Request failed with status code 409"
+              ? "User Already Exists"
+              : "Something went wrong",
+          type: "danger",
+          show: true,
+        });
+
         console.log(err);
       });
   };

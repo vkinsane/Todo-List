@@ -123,6 +123,14 @@ function Login() {
         setLoginSuccess(true);
       })
       .catch((err) => {
+        setAlertConfig({
+          msg:
+            err.message === "Request failed with status code 404"
+              ? "Please signup first"
+              : "Something went wrong",
+          type: "info",
+          show: true,
+        });
         console.log(err);
       });
   };
@@ -135,6 +143,7 @@ function Login() {
     });
     console.log(response);
   };
+
   return (
     <div className="container parent-container">
       {/* Overlay */}
@@ -209,8 +218,6 @@ function Login() {
           {/* Login with google btn */}
           <div className="row px-0 mx-0">
             <GoogleLogin
-              // clientId="796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com"
-              // clientId="796409146798-2e4lbh1jq3vfterhtucv2u3haainvcto.apps.googleusercontent.com"
               clientId="796409146798-68hvvcorqqt23pplrp9c7447dsst6k6p.apps.googleusercontent.com"
               render={(renderProps) => (
                 <button

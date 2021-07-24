@@ -31,7 +31,7 @@ router.post("/googleauth", (req, res) => {
         email: email,
       }).then((user) => {
         if (!user) {
-          return res.status(400).json({
+          return res.status(404).json({
             msg: "User does not exists",
           });
         }
