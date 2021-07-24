@@ -10,7 +10,7 @@ const User = require("../../models/User");
 
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(
-  "796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com"
+  "796409146798-68hvvcorqqt23pplrp9c7447dsst6k6p.apps.googleusercontent.com"
 );
 
 //@route Google api/auth/googleauth
@@ -22,7 +22,7 @@ router.post("/googleauth", (req, res) => {
     .verifyIdToken({
       idToken: tokenId,
       audience:
-        "796409146798-736s4dc71rnhqdb472h1nh0kr7evh027.apps.googleusercontent.com",
+        "796409146798-68hvvcorqqt23pplrp9c7447dsst6k6p.apps.googleusercontent.com",
     })
     .then((userData) => {
       const { email } = userData.payload;
