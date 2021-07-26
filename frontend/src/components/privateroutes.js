@@ -12,7 +12,7 @@ const PrivateRoute = (props) => {
     await axios({
       method: "GET",
       headers: { "x-auth-token": localStorage.getItem("token") },
-      url: "http://localhost:5000/api/auth/user",
+      url: "https://todolist-apis.herokuapp.com/api/auth/user",
     })
       .then((res) => {
         setTokenValid(true);

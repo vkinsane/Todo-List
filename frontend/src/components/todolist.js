@@ -41,7 +41,9 @@ function ToDoList({ props }) {
     async function fetchListData() {
       await axios
         .get(
-          `http://localhost:5000/api/items/${localStorage.getItem("listId")}`
+          `https://todolist-apis.herokuapp.com/api/items/${localStorage.getItem(
+            "listId"
+          )}`
         )
         .then((res) => {
           console.log(res.data.list);
@@ -62,7 +64,7 @@ function ToDoList({ props }) {
     await axios({
       method: "PUT",
       headers: { "x-auth-token": localStorage.getItem("token") },
-      url: `http://localhost:5000/api/items`,
+      url: `https://todolist-apis.herokuapp.com/api/items`,
       data: payload,
     })
       .then((res) => {
@@ -82,7 +84,7 @@ function ToDoList({ props }) {
       itemToDelete: itemToDelete,
     };
     axios
-      .put(`http://localhost:5000/api/items/deleteItem`, payload)
+      .put(`https://todolist-apis.herokuapp.com/api/items/deleteItem`, payload)
       .then((res) => {
         console.log(res);
       })

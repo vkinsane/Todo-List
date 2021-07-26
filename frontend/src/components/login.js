@@ -8,10 +8,11 @@ import GoogleLogin from "react-google-login";
 import axios from "axios";
 
 function Login() {
-  var loginInfo = {
-    email: "",
-    password: "",
-  };
+  // var loginInfo = {
+  //   email: "",
+  //   password: "",
+  // };
+  const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [alertConfig, setAlertConfig] = useState({
     msg: "",
@@ -20,43 +21,44 @@ function Login() {
   });
 
   const onValueChange = ({ target }) => {
-    loginInfo[target.id] = target.value;
-    // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
+    // loginInfo[target.id] = target.value;
+    setLoginInfo({ ...loginInfo, [target.id]: target.value }); //* Takes effect late
     console.log(loginInfo);
 
     //TODO: Validation
-    // if (
-    //   target.id === "email" &&
-    //   target.value.match(
-    //     "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
-    //   ) != null
-    // ) {
-    //   setAlertConfig({
-    //     msg: "Valid Email",
-    //     type: "info",
-    //     show: true,
-    //   });
-    // } else if (
-    //   target.id === "password" &&
-    //   target.value.match(
-    //     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-    //   ) != null
-    // ) {
-    //   setAlertConfig({
-    //     msg: "Valid Password",
-    //     type: "info",
-    //     show: true,
-    //   });
-    // } else {
-    //   setAlertConfig({
-    //     msg:
-    //       target.id === "email"
-    //         ? "Invalid Email"
-    //         : "Please enter strong password with a mixture of number, characters, capital & small letters with minimum length of 8",
-    //     type: "info",
-    //     show: true,
-    //   });
-    // }
+    if (
+      target.id === "email" &&
+      target.value.match(
+        "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
+      ) != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Email Format✔️",
+        type: "info",
+        show: true,
+      });
+    } else if (
+      target.id === "password" &&
+      target.value.match(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      ) != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Password",
+        type: "info",
+        show: true,
+      });
+    } else {
+      setAlertConfig({
+        msg:
+          // target.id === "email"
+          // ?
+          "Invalid Email Format ❌",
+        // : "Please enter strong password with a mixture of number, characters, capital & small letters with minimum length of 8",
+        type: "info",
+        show: true,
+      });
+    }
   };
 
   const onSubmission = async () => {
@@ -76,7 +78,7 @@ function Login() {
     document.getElementById("email").value = "";
     document.getElementById("password").value = "";
     await axios
-      .post(`http://localhost:5000/api/auth`, loginInfo)
+      .post(`https://todolist-apis.herokuapp.com/api/auth`, loginInfo)
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.token);
@@ -105,7 +107,7 @@ function Login() {
     console.log(response);
     axios({
       method: "POST",
-      url: "http://localhost:5000/api/auth/googleauth",
+      url: "https://todolist-apis.herokuapp.com/api/auth/googleauth",
       data: {
         tokenId: response.tokenId,
       },
@@ -146,6 +148,23 @@ function Login() {
 
   return (
     <div className="container parent-container">
+      {/* <div
+        role="tooltip"
+        x-placement="right"
+        className="fade show tooltip bs-tooltip-end"
+        id="overlay-example"
+        data-popper-reference-hidden="false"
+        data-popper-escaped="false"
+        data-popper-placement="right"
+      >
+        <div
+          className="tooltip-arrow"
+          style={{
+            transform: "translate(0px,8px)",
+          }}
+        ></div>
+        <div className="tooltip-inner">My Tooltip</div>
+      </div> */}
       {/* Overlay */}
       {loginSuccess && (
         <div className="overlay">
@@ -254,7 +273,6 @@ function Login() {
         setTimeout(() => {
           window.open("/todolist", "_self");
         }, 500)}
-
       {/* {loginSuccess && <Redirect to="/todolist" />} */}
     </div>
   );

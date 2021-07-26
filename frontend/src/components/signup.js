@@ -8,11 +8,11 @@ import GoogleLogin from "react-google-login";
 import axios from "axios";
 var mongoose = require("mongoose");
 function SignUp() {
-  var signUpInfo = {
+  const [signUpInfo, setSignUpInfo] = useState({
     name: "",
     email: "",
     password: "",
-  };
+  });
 
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   // const [userId, setUserId] = useState("s");
@@ -31,59 +31,60 @@ function SignUp() {
   };
 
   const onValueChange = ({ target }) => {
-    signUpInfo[target.id] = target.value;
-    // setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
+    // signUpInfo[target.id] = target.value;
+    setSignUpInfo({ ...signUpInfo, [target.id]: target.value }); //* Takes effect late
     console.log(signUpInfo);
 
     //TODO:Validation
-    /*
-     if (
-        target.id === "name" &&
-        target.value.match("^[A-Za-z0-9_@./#&+-][^\\s]*$") != null
-      ) {
-        setAlertConfig({
-          msg: "Valid Username ✔️",
-          type: "success",
-          show: true,
-        });
-      } else if (
-        target.id === "email" &&
-        target.value.match(
-          "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
-        ) != null
-      ) {
-        setAlertConfig({
-          msg: "Valid Email ✔️",
-          type: "success",
-          show: true,
-        });
-      } else if (
-        target.id === "password" &&
-        target.value.match(
-          "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-        ) != null
-      ) {
-        setAlertConfig({
-          msg: "Valid Password ✔️",
-          type: "success",
-          show: true,
-        });
-      } else {
-        setAlertConfig({
-          msg:
-            (target.id === "name" && "Invalid username ❌") ||
-            (target.id === "email" && "Invalid email ❌") ||
-            (target.id === "password" && "Invalid password ❌"),
-          type: "info",
-          show: true,
-        });
-      }
-    */
+
+    if (
+      target.id === "name" &&
+      // target.value.match("^[A-Za-z0-9_@./#&+-][^\\s]*$") != null
+      target.value.match("^[A-Za-z0-9_@./#&+-]") != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Username ✔️",
+        type: "success",
+        show: true,
+      });
+    } else if (
+      target.id === "email" &&
+      target.value.match(
+        "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$"
+      ) != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Email ✔️",
+        type: "success",
+        show: true,
+      });
+    } else if (
+      target.id === "password" &&
+      target.value.match(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      ) != null
+    ) {
+      setAlertConfig({
+        msg: "Valid Password ✔️",
+        type: "success",
+        show: true,
+      });
+    } else {
+      setAlertConfig({
+        msg:
+          (target.id === "name" && "Invalid username ❌") ||
+          (target.id === "email" && "Invalid email ❌") ||
+          (target.id === "password" &&
+            "Please enter strong password with a mixture of number, characters, capital & small letters with minimum length of 8 ❌"),
+        type: "info",
+        show: true,
+      });
+    }
   };
 
   const getListId = async () => {
     await axios
-      .post(`http://localhost:5000/api/items/defaultList`)
+      .post(`https://todolist-apis.herokuapp.com/api/items/defaultList`)
       .then((res) => {
         localStorage.setItem("listId", res.data._id);
         console.log("got list id", localStorage.getItem("listId"));
@@ -108,7 +109,7 @@ function SignUp() {
     }
 
     await axios
-      .post(`http://localhost:5000/api/users`, signUpInfo)
+      .post(`https://todolist-apis.herokuapp.com/api/users`, signUpInfo)
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.token);
@@ -142,7 +143,7 @@ function SignUp() {
     // console.log(localStorage.getItem("listId"));
 
     await axios
-      .put(`http://localhost:5000/api/users/updateUser`, {
+      .put(`https://todolist-apis.herokuapp.com/api/users/updateUser`, {
         _id: mongoose.Types.ObjectId(localStorage.getItem("userId")),
         list_id: mongoose.Types.ObjectId(localStorage.getItem("listId")),
       })
@@ -162,7 +163,7 @@ function SignUp() {
     console.log(response);
     await axios({
       method: "POST",
-      url: "http://localhost:5000/api/users/googleauth",
+      url: "https://todolist-apis.herokuapp.com/api/users/googleauth",
       data: {
         tokenId: response.tokenId,
       },
