@@ -230,6 +230,7 @@
 @media screen and (max-width: 980px) {
   .login-page-container {
     width: 100%;
+    /*  */
   }
 }
 .active-tab-btn {
